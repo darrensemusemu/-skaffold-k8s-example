@@ -11,3 +11,7 @@ Prerequisites to run example:
 1. Kubernetes cluster for deploys, this example uses GKE with a service account
 
 
+## Quick start
+
+Run: `skaffold dev`
+
