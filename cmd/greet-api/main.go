@@ -42,6 +42,6 @@ func run(cfg config) error {
 
 	addr := fmt.Sprintf(":%d", cfg.port)
 	log.Printf("Running of port %s", addr)
-	http.ListenAndServe(addr, r)
-	return nil
+	err := http.ListenAndServe(addr, r)
+	return err
 }
