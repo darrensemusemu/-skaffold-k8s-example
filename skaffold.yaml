@@ -1,0 +1,38 @@
+apiVersion: skaffold/v2beta28
+kind: Config
+metadata:
+  name: greet-api
+build:
+  artifacts:
+    - image: europe-west1-docker.pkg.dev/darrensemusemu-infra/skaffold-k8s-example/greet-api
+      context: .
+      docker:
+        dockerfile: Dockerfile
+        buildArgs:
+          BINARY_NAME: greet-api
+  local:
+    push: false
+deploy:
+  kubectl:
+    manifests:
+      - deploy/k8s/*.yaml
+profiles:
+  - name: prod
+    build:
+      tagPolicy:
+        gitCommit:
+          ignoreChanges: true
+          variant: AbbrevCommitSha
+      artifacts:
+        - image: europe-west1-docker.pkg.dev/darrensemusemu-infra/skaffold-k8s-example/greet-api
+          context: .
+          docker:
+            dockerfile: Dockerfile
+            buildArgs:
+              BINARY_NAME:  greet-api
+            cacheFrom:
+              # googleCloudBuild replaces cache references to the artifact image with
+              # the tagged image reference, useful for caching from the previous build.
+              - europe-west1-docker.pkg.dev/darrensemusemu-infra/skaffold-k8s-example/greet-api
+      googleCloudBuild:
+        projectId: darrensemusemu-infra
