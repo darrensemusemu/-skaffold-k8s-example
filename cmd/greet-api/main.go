@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -31,6 +32,12 @@ func run(cfg config) error {
 	r.Use(middleware.Logger)
 	r.Get("/health/alive", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
+	})
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		t := time.Now()
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/text")
+		w.Write([]byte("Hello at: " + t.String()))
 	})
 
 	addr := fmt.Sprintf(":%d", cfg.port)
