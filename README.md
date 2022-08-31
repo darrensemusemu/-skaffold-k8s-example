@@ -8,6 +8,6 @@ Prerequisites to run example:
 
 1. A kubernetes cluster, use [kind](https://kind.sigs.k8s.io/) or [minikube](https://minikube.sigs.k8s.io/docs/start/) for local dev
 1. Skaffold, read more in the [docs](https://skaffold.dev/docs/) section
-1. Kubernetes cluster
+1. Kubernetes cluster for deploys, this example uses GKE with a service account
 
 
