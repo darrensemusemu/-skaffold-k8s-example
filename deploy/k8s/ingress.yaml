@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: greet-api
+  namespace: skaffold-k8s-example
+  annotations:
+    # nginx.ingress.kubernetes.io/auth-url: ""
+    # nginx.ingress.kubernetes.io/auth-response-headers: "Authorization"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - playground.darrensemusemu.dev
+      secretName: letsencrypt-prod-cluster
+  rules:
+    - host: playground.darrensemusemu.dev
+      http:
+        paths:
+          - path: /api/skaffold-k8s-example/greet(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: greet-api
+                port:
+                  name: http
+    - host: localhost
+      http:
+        paths:
+          - path: /api/skaffold-k8s-example/greet(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: greet-api
+                port:
+                  name: http
