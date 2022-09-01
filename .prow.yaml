@@ -1,4 +1,4 @@
-presubmits:
+postsubmits:
   - name: greet-api-deploy
     decorate: true
     clone_uri: "git@github.com:darrensemusemu/skaffold-k8s-example.git"
